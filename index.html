@@ -8,10 +8,22 @@
     <body>
         <h1>Snowflakes</h1>
 
+        <h3>Stats</h3>
         <div id="stats">
-            <h3>Stats</h3>
             <p id="particalNum">Number of Particals: </p>
+            <p id="spawnRate">Spawn Rate: </p>
+        </div>  
+
+        <div id="control">
+            <label>Fall Speed</label>
+            <input type="text" name="speed" id="speed" placeholder="Fall Speed" onchange="updateSpeed()">
+            <label>Max Particals</label>
+            <input type="text" name="max" id="max" placeholder="Max Particals" onchange="updateMax()">
+            <label>Spawn Rate</label>
+            <input type="text" name="rate" id="rate" placeholder="Spawn Rate" onchange="updateSpawnRate()">
+
         </div>
+        <br>
 
         <canvas id="myCanvas" width="900" height="450" style="border:1px solid #000000;"></canvas>
     </body>

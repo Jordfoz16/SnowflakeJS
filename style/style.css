@@ -1,3 +1,15 @@
 body {
     text-align: center;
 }
+
+label{
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+
+#stats p{
+    display: inline-block;
+    width: 200px;
+    text-align: center;
+}
