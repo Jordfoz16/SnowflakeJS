@@ -11,7 +11,57 @@ var spawnRate = 30;
 
 var timer = 0;
 
+function snowflake(){
+    var x, y, z, r;
+    var colour = "black";
+
+    var fallSpeed = 0.7;
+    var swayCounter = 0;
+    var swaySpeed = 0.01;
+    var swayDistance = 0.2;
+    var remove = false;
+
+    this.createPartical = function(){
+        this.r = Math.floor((Math.random() * 8) + 2);
+
+        this.x = Math.floor((Math.random() * parseInt(width)));
+        this.y = 0 - (this.r * 2);
+        this.z = this.r;
+
+        fallSpeed = fallSpeed * Math.sin(this.r / 10);
+
+        swaySpeed = (Math.random() / 100) - 0.005;
+        swayDistance = (Math.random() / 5) + 0.1;
+        swayCounter = Math.random();
+
+        if(this.r < 4){ this.colour = "#d3faff";
+        }else if(this.r < 7){ this.colour = "#bae6ff";
+        }else{ this.colour = "#8dd3fc"; }
+    },
+
+    this.draw = function(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+        ctx.fillStyle = this.colour;
+        ctx.fill();
+    },
+
+    this.move = function(){
+        var xa = Math.sin(swayCounter) * swayDistance;
+        this.x += xa;
+        this.y += fallSpeed;
+    }
+};
+
+
 canvasLoop();
+
+function canvasLoop(){
+    update();
+    render();
+
+    requestAnimationFrame(canvasLoop);
+}
 
 function render(){
     clear();
@@ -26,19 +76,18 @@ function update(){
         timer++;
         if(timer % spawnRate == 0){
             addPartical();
-            console.log("Added");
         }
     }
 
     for(i = 0; i < particalArray.length; i ++){
         particalArray[i].move();
-        if(particalArray[i].getY() >= height + 50){
-            particalArray[i].remove();
+        if(particalArray[i].y >= parseInt(height) + 50){
+            particalArray[i].remove = true;
         }
     }
 
     for(i = 0; i < particalArray.length; i++){
-        if(particalArray[i].toRemove()){
+        if(particalArray[i].remove){
             particalArray.splice(i, 1);
         }
     }
@@ -54,7 +103,7 @@ function sortParticals(){
     do{
         swapped = false;
         for(var i = 0; i < particalArray.length-1; i++){
-            if(particalArray[i].getZ() > particalArray[i + 1].getZ()){
+            if(particalArray[i].z > particalArray[i + 1].z){
                 var temp = particalArray[i];
                 particalArray[i] = particalArray[i+1];
                 particalArray[i+1] = temp;
@@ -73,11 +122,4 @@ function addPartical(){
     var newPartical = new snowflake();
     newPartical.createPartical();
     particalArray.push(newPartical);
-}
-
-function canvasLoop(){
-    update();
-    render();
-
-    requestAnimationFrame(canvasLoop);
 }
