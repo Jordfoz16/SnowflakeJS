@@ -6,13 +6,17 @@ var ctx = c.getContext("2d");
 var particalArray = new Array();
 
 var backgroundColour = "#e8e8e8";
-var maxParticals = 50;
+var maxParticals = 100;
 var spawnRate = 30;
 var fallSpeed = 0.7;
 
 var timer = 0;
 
 document.getElementById("spawnRate").innerHTML = "Spawn Rate: " + 60/spawnRate + "/s"
+
+document.getElementById("speed").setAttribute("value", fallSpeed);
+document.getElementById("max").setAttribute("value", maxParticals);
+document.getElementById("rate").setAttribute("value", 60/spawnRate);
 
 
 function snowflake(){
@@ -75,9 +79,10 @@ function render(){
 }
 
 function update(){
+    console.log(spawnRate);
     if(particalArray.length < maxParticals){
         timer++;
-        if(timer % spawnRate == 0){
+        if(timer % Math.floor(spawnRate) == 0){
             addPartical();
         }
     }
@@ -141,6 +146,8 @@ function updateMax(){
 
 function updateSpawnRate(){
     var value = document.getElementById("rate").value;
-    document.getElementById("spawnRate").innerHTML = "Spawn Rate: " + 60/value + "/s"
+    if (value > 60) { value = 60; }
+    document.getElementById("spawnRate").innerHTML = "Spawn Rate: " + value + "/s"
+    value = 60 / value;
     spawnRate = value;
 }
